@@ -82,6 +82,19 @@ model Product {
 
 }
 
+model Company{
+  id Int @id @default(autoincrement())
+  name String
+  tel String
+  owner String
+  companyNumber String
+  address String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  deletedAt DateTime?
+}
+
+
 model Option {
   id Int @id @default(autoincrement())
   // 추가금액

@@ -1,24 +1,32 @@
 import { Body, Controller, Delete, Get, Param, Put, Post } from '@nestjs/common';
 import { OptionService } from './option/option.service';
 import { ProductService } from './product/product.service';
-import { Product, Option } from '@prisma/client'
+import { Product, Option, Company } from '@prisma/client'
 
 @Controller()
 export class AppController {
   constructor(
     private readonly productService: ProductService,
     private readonly optionService: OptionService,
-  ) {}
+  ) { }
+
+  @Get('company')
+  async getCompanys(): Promise<any> {
+    return '회사명';
+  }
+
 
   @Get('product')
   async getOption(): Promise<Product[]> {
     return this.productService.products({});
   }
 
+
+
   @Get('product/:id')
   async getProductById(@Param('id') id: string): Promise<Product> {
     console.log(id);
-    
+
     return this.productService.product({ id: Number(id) });
   }
 
@@ -28,7 +36,7 @@ export class AppController {
   ): Promise<Product[]> {
     return this.productService.products({
       where: {
-          name: { contains: queue },
+        name: { contains: queue },
       },
     });
   }
@@ -37,7 +45,7 @@ export class AppController {
   async createProduct(
     @Body() product: Product,
   ): Promise<Product> {
-  
+
     return this.productService.createProduct(product);
   }
 
