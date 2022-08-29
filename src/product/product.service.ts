@@ -4,13 +4,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProductService {
-    constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async product(
     productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
   ): Promise<Product | null> {
     console.log(productWhereUniqueInput);
-    
+
     return await this.prisma.product.findUnique({
       where: productWhereUniqueInput
     });

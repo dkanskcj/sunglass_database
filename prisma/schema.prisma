@@ -108,7 +108,51 @@ model Option {
   deletedAt DateTime?
 
 }
+model Stocktest {
+  id Int @id @default(autoincrement())
+  // 거래처명
+  company String
+  // 상품명
+  products String
+  // 현재고
+  now_stock Int
+  // 재고
+  stock Int
+  // 옵션여부
+  stock_option String?
+  // 가격
+  cost Int
+  // 총액
+  totalCost Int
+  // 사유
+  reason String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  deletedAt DateTime?
+}
 
+model Stock {
+  id Int @id @default(autoincrement())
+  // 거래처명
+  company String
+  // 상품명
+  products String
+  // 현재고
+  now_stock Int
+  // 재고
+  stock Int
+  // 옵션여부
+  stock_option String?
+  // 가격
+  cost Int
+  // 총액
+  totalCost Int
+  // 사유
+  reason String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  deletedAt DateTime?
+}
 // enum SaleState {
 //   STOP
 //   START

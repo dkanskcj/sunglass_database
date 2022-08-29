@@ -1,15 +1,17 @@
 import { Body, Controller, Delete, Get, Param, Put, Post } from '@nestjs/common';
 import { OptionService } from './option/option.service';
 import { ProductService } from './product/product.service';
-import { Product, Option, Company } from '@prisma/client'
+import { Product, Option, Company, Stocktest } from '@prisma/client'
 import { CompanyService } from './company/company.service';
+import { StockService } from './stock/stock.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly productService: ProductService,
     private readonly optionService: OptionService,
-    private readonly companyService: CompanyService
+    private readonly companyService: CompanyService,
+    private readonly stockService: StockService
   ) { }
 
   @Get('company')
@@ -48,6 +50,46 @@ export class AppController {
     return this.companyService.updateCompany({
       where: { id: Number(id) },
       data: company
+    });
+  }
+
+
+  @Get('stocktest')
+  async getStocks(): Promise<Stocktest[]> {
+    return this.stockService.Stocks({});
+    // return '회사명';
+  }
+  @Get('stocktest/:id')
+  async getStockById(@Param('id') id: string): Promise<Stocktest> {
+    console.log(id);
+
+    return this.stockService.Stock({ id: Number(id) });
+  }
+  @Get('Stocktest/:queue')
+  async getStockBySearch(
+    @Param('queue') queue: string,
+  ): Promise<Stocktest[]> {
+    return this.stockService.Stocks({
+      where: {
+        name: { contains: queue },
+      },
+    });
+  }
+  @Post('Stocktest')
+  async createStock(
+    @Body() stock: Stocktest,
+  ): Promise<Stocktest> {
+
+    return this.stockService.createStock(stock);
+  }
+  @Put('Stocktest/:id')
+  async updateStock(
+    @Param('id') id: number,
+    @Body() stock: Stocktest
+  ): Promise<Stocktest> {
+    return this.stockService.updateStock({
+      where: { id: Number(id) },
+      data: stock
     });
   }
 
