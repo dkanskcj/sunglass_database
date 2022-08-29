@@ -81,20 +81,20 @@ model Product {
   deletedAt DateTime?
 
 }
-
-model Company{
+// id, name, tel, owner, companyNumber, address
+model Company {
   id Int @id @default(autoincrement())
   name String
   tel String
   owner String
   companyNumber String
   address String
+  
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @updatedAt  @default(now())
   deletedAt DateTime?
+
 }
-
-
 model Option {
   id Int @id @default(autoincrement())
   // 추가금액

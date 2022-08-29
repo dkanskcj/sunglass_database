@@ -16,7 +16,7 @@ export class CompanyService {
     });
   }
 
-  async Companys(params: {
+  async companys(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.CompanyWhereUniqueInput;

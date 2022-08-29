@@ -2,18 +2,55 @@ import { Body, Controller, Delete, Get, Param, Put, Post } from '@nestjs/common'
 import { OptionService } from './option/option.service';
 import { ProductService } from './product/product.service';
 import { Product, Option, Company } from '@prisma/client'
+import { CompanyService } from './company/company.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly productService: ProductService,
     private readonly optionService: OptionService,
+    private readonly companyService: CompanyService
   ) { }
 
   @Get('company')
-  async getCompanys(): Promise<any> {
-    return '회사명';
+  async getCompanys(): Promise<Company[]> {
+    return this.companyService.companys({});
+    // return '회사명';
   }
+  @Get('company/:id')
+  async getCompanyById(@Param('id') id: string): Promise<Company> {
+    console.log(id);
+
+    return this.companyService.Company({ id: Number(id) });
+  }
+  @Get('company/:queue')
+  async getCompanyBySearch(
+    @Param('queue') queue: string,
+  ): Promise<Company[]> {
+    return this.companyService.companys({
+      where: {
+        name: { contains: queue },
+      },
+    });
+  }
+  @Post('company')
+  async createCompany(
+    @Body() company: Company,
+  ): Promise<Company> {
+
+    return this.companyService.createCompany(company);
+  }
+  @Put('company/:id')
+  async updateCompany(
+    @Param('id') id: number,
+    @Body() company: Product
+  ): Promise<Company> {
+    return this.companyService.updateCompany({
+      where: { id: Number(id) },
+      data: company
+    });
+  }
+
 
 
   @Get('product')
