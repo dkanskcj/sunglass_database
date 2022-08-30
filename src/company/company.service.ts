@@ -4,13 +4,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CompanyService {
-    constructor(private prisma: PrismaService) {}
+
+
+
+  constructor(private prisma: PrismaService) { }
 
   async Company(
     CompanyWhereUniqueInput: Prisma.CompanyWhereUniqueInput,
   ): Promise<Company | null> {
     console.log(CompanyWhereUniqueInput);
-    
+
     return await this.prisma.company.findUnique({
       where: CompanyWhereUniqueInput
     });

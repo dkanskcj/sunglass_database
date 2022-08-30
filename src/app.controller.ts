@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Post, ParseIntPipe } from '@nestjs/common';
 import { OptionService } from './option/option.service';
 import { ProductService } from './product/product.service';
 import { Product, Option, Company, Stocktest } from '@prisma/client'
@@ -20,7 +20,7 @@ export class AppController {
     // return '회사명';
   }
   @Get('company/:id')
-  async getCompanyById(@Param('id') id: string): Promise<Company> {
+  async getCompanyById(@Param('id', new ParseIntPipe()) id: string): Promise<Company> {
     console.log(id);
 
     return this.companyService.Company({ id: Number(id) });
