@@ -89,11 +89,10 @@ model Company {
   owner String
   companyNumber String
   address String
-  
+  OrderList Ordertest[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt  @default(now())
   deletedAt DateTime?
-
 }
 model Option {
   id Int @id @default(autoincrement())
@@ -152,6 +151,64 @@ model Stock {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   deletedAt DateTime?
+}
+
+model Ordertest {
+  // id Int @id @default(autoincrement())
+  // 주문 번호
+  orderNumber Int @id @default(autoincrement())
+  // 주문자 아이디
+  orderName String
+  // 주문 회사
+  // company String
+  // 주문 제품
+  product String
+  // 상품명
+  stock String
+  // 배송
+  shippingList Shipping[]
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+  // product Product[]?
+  // productId Int?
+  // stock Stocktest[]?
+  // stockId Int?
+  // 메모
+  notice String?
+  orderStatus String
+  // 주문 수량
+  amount Int
+  // 전화번호
+  phoneNumber Int
+  // 구매방법
+  purchaseMethod String
+  // 계좌
+  purchase Int
+  // 배송 상태
+  shippingStatus String
+  // 택배사
+  shipping String
+  // 배송비
+  shipcost Int
+  // 배송 주소
+  shipAddress String
+  // 결제 금액
+  totalCost Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  deletedAt DateTime?
+}
+
+model Shipping{
+  id Int @id @default(autoincrement())
+  // 주문 배열
+  ordertest Ordertest? @relation(fields: [orderId], references: [orderNumber])
+  orderId Int?
+  // 쿠폰
+  coupon String?
+  // 구분
+  status String?
+
 }
 // enum SaleState {
 //   STOP
