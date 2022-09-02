@@ -167,13 +167,15 @@ export class AppController {
 
     return this.orderService.createOrder(order);
   }
-  @Put('ordertest/:id')
+  
+  @Put('ordertest/:orderNumber')
   async updateOrder(
-    @Param('orderNumber') orderNumber: number,
+    @Param('orderNumber', ParseIntPipe) orderNumber: number,
     @Body() order: Ordertest
   ): Promise<Ordertest> {
+    
     return this.orderService.updateOrder({
-      where: { orderNumber: Number(orderNumber) },
+      where: { orderNumber },
       data: order
     });
   }
