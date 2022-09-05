@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, Post, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Post, ParseIntPipe, Query } from '@nestjs/common';
 import { OptionService } from './option/option.service';
 import { ProductService } from './product/product.service';
 import { Product, Option, Company, Stocktest, Shipping, Ordertest } from '@prisma/client'
@@ -142,14 +142,29 @@ export class AppController {
   @Get('ordertest')
   async getOrders(): Promise<Ordertest[]> {
     return this.orderService.Orders({});
-    // return '회사명';
   }
+
+  @Get('ordertest/search')
+  async searchDate(@Query('date') date1: string)
+                  // @Query('date2') date2: string)
+                  : Promise<Ordertest[]> {
+    
+    // return this.orderService.Orders({ 
+    //   where: {
+    //     createdAt: {
+    //       gte: new Date(date)
+    //     }
+    // } });
+    return await this.orderService.test(date1)
+  } 
+
   @Get('ordertest/:orderNumber')
   async getOrderById(@Param('orderNumber') orderNumber: string): Promise<Ordertest> {
     console.log(orderNumber);
 
     return this.orderService.Order({ orderNumber: Number(orderNumber) });
   }
+
   @Get('ordertest/:queue')
   async getOrderBySearch(
     @Param('queue') queue: string,
@@ -160,6 +175,9 @@ export class AppController {
       },
     });
   }
+
+  
+
   @Post('ordertest')
   async createOrder(
     @Body() order: Ordertest,

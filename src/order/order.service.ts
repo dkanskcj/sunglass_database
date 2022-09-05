@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Ordertest, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import * as dayjs from 'dayjs';
+
 
 @Injectable()
 export class OrderService {
@@ -31,6 +33,11 @@ export class OrderService {
             where,
             orderBy,
         });
+    }
+
+    async test(date1: string) {
+        const items = await this.prisma.ordertest.findMany()
+        return items.filter(item => dayjs(item.createdAt).isAfter(dayjs(date1)));
     }
 
     async createOrder(data: Prisma.OrdertestCreateInput): Promise<Ordertest> {
