@@ -115,7 +115,7 @@ export class AppController {
     return this.shippingService.Shippings({
       where: {
         // name: { contains: queue },
-        coupon: {contains: queue}
+        coupon: { contains: queue }
       },
     });
   }
@@ -146,9 +146,9 @@ export class AppController {
 
   @Get('ordertest/search')
   async searchDate(@Query('date') date1: string)
-                  // @Query('date2') date2: string)
-                  : Promise<Ordertest[]> {
-    
+    // @Query('date2') date2: string)
+    : Promise<Ordertest[]> {
+
     // return this.orderService.Orders({ 
     //   where: {
     //     createdAt: {
@@ -156,7 +156,7 @@ export class AppController {
     //     }
     // } });
     return await this.orderService.test(date1)
-  } 
+  }
 
   @Get('ordertest/:orderNumber')
   async getOrderById(@Param('orderNumber') orderNumber: string): Promise<Ordertest> {
@@ -171,12 +171,12 @@ export class AppController {
   ): Promise<Ordertest[]> {
     return this.orderService.Orders({
       where: {
-        orderName: {contains: queue}
+        orderName: { contains: queue }
       },
     });
   }
 
-  
+
 
   @Post('ordertest')
   async createOrder(
@@ -185,13 +185,13 @@ export class AppController {
 
     return this.orderService.createOrder(order);
   }
-  
+
   @Put('ordertest/:orderNumber')
   async updateOrder(
     @Param('orderNumber', ParseIntPipe) orderNumber: number,
     @Body() order: Ordertest
   ): Promise<Ordertest> {
-    
+
     return this.orderService.updateOrder({
       where: { orderNumber },
       data: order
@@ -254,5 +254,14 @@ export class AppController {
   @Delete('product/:id')
   async deleteProduct(@Param('id') id: string): Promise<Product> {
     return this.productService.deleteProduct({ id: Number(id) });
+  }
+
+  // @Delete('company/:id')
+  // async deleteCompany(@Param('id', ParseIntPipe) id: number): Promise<Company> {
+  //   return this.companyService.deleteCompany({ id: Number(id) });
+  // }
+  @Delete('company/:id')
+  async deleteCompany(@Param('id') id: string): Promise<Company> {
+    return this.companyService.deleteCompany({ id: Number(id) });
   }
 }
