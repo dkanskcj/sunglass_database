@@ -19,6 +19,10 @@ export class CompanyService {
     });
   }
 
+  async totalCount() {
+    return await this.prisma.company.count();
+  }
+
   async companys(params: {
     skip?: number;
     take?: number;

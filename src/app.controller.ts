@@ -6,6 +6,7 @@ import { CompanyService } from './company/company.service';
 import { StockService } from './stock/stock.service';
 import { OrderService } from './order/order.service';
 import { ShippingService } from './shipping/shipping.service';
+import { CompanySearch } from './company/dto/search.type';
 
 @Controller()
 export class AppController {
@@ -19,10 +20,26 @@ export class AppController {
   ) { }
   // company
   @Get('company')
-  async getCompanys(): Promise<Company[]> {
-    return this.companyService.companys({});
+  async getCompanys(
+    @Query('pageNo') pageNo: number,
+    @Query('pageSize') pageSize: number
+  ) {
+    console.log({pageNo, pageSize})
+    const company = await this.companyService.companys({
+      skip: (pageNo - 1 ) * pageSize,
+      take: Number(pageSize)
+    });
+    const count = await this.companyService.totalCount();
+    const result = {
+      items: company,
+      count
+    }
+    return result
+  
+    
     // return '회사명';
   }
+
   @Get('company/:id')
   async getCompanyById(@Param('id', new ParseIntPipe()) id: string): Promise<Company> {
     console.log(id);
