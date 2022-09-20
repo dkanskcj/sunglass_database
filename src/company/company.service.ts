@@ -12,7 +12,7 @@ export class CompanyService {
   async Company(
     CompanyWhereUniqueInput: Prisma.CompanyWhereUniqueInput,
   ): Promise<Company | null> {
-    console.log(CompanyWhereUniqueInput);
+    console.log('CompanyWhereUniqueInput : ',CompanyWhereUniqueInput);
 
     return await this.prisma.company.findUnique({
       where: CompanyWhereUniqueInput

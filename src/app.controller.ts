@@ -1,12 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Put, Post, ParseIntPipe, Query } from '@nestjs/common';
-import { OptionService } from './option/option.service';
-import { ProductService } from './product/product.service';
-import { Product, Option, Company, Stocktest, Shipping, Ordertest } from '@prisma/client'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Company, Option, Ordertest, Product, Shipping, Stocktest } from '@prisma/client';
 import { CompanyService } from './company/company.service';
-import { StockService } from './stock/stock.service';
+import { OptionService } from './option/option.service';
 import { OrderService } from './order/order.service';
+import { ProductService } from './product/product.service';
 import { ShippingService } from './shipping/shipping.service';
-import { CompanySearch } from './company/dto/search.type';
+import { StockService } from './stock/stock.service';
 
 @Controller()
 export class AppController {
@@ -35,9 +34,6 @@ export class AppController {
       count
     }
     return result
-  
-    
-    // return '회사명';
   }
 
   @Get('company/:id')
