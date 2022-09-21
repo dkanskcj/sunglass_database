@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { Company, Option, Ordertest, Product, Shipping, Stocktest } from '@prisma/client';
+import { exit } from 'process';
 import { CompanyService } from './company/company.service';
 import { OptionService } from './option/option.service';
 import { OrderService } from './order/order.service';
@@ -216,11 +217,17 @@ export class AppController {
     @Body() orders: Ordertest[]
   ): Promise<boolean> {
     for (const order of orders) {
-      order.orderStatus = '주문승인';
-     const update = await this.orderService.updateOrder({
-        where: { orderNumber: order.orderNumber },
-        data: order
-      });
+      if(order.orderStatus === '주문거절' || order.orderStatus === '주문취소')
+      {
+        console.log('주문대기중만 가능~');
+      }
+      else{
+        order.orderStatus = '주문승인';
+        const update = await this.orderService.updateOrder({
+          where: { orderNumber: order.orderNumber },
+          data: order
+        });
+      }
     }
 
     return true;
