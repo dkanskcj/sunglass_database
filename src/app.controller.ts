@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { Company, Option, Ordertest, Product, Shipping, Stocktest } from '@prisma/client';
 import { CompanyService } from './company/company.service';
 import { OptionService } from './option/option.service';
@@ -23,9 +23,9 @@ export class AppController {
     @Query('pageNo') pageNo: number,
     @Query('pageSize') pageSize: number
   ) {
-    console.log({pageNo, pageSize})
+    console.log({ pageNo, pageSize })
     const company = await this.companyService.companys({
-      skip: (pageNo - 1 ) * pageSize,
+      skip: (pageNo - 1) * pageSize,
       take: Number(pageSize)
     });
     const count = await this.companyService.totalCount();
@@ -209,6 +209,21 @@ export class AppController {
       where: { orderNumber },
       data: order
     });
+  }
+
+  @Patch('ordertest/update-order')
+  async updateOrderStatus(
+    @Body() orders: Ordertest[]
+  ): Promise<boolean> {
+    for (const order of orders) {
+      order.orderStatus = '주문승인';
+     const update = await this.orderService.updateOrder({
+        where: { orderNumber: order.orderNumber },
+        data: order
+      });
+    }
+
+    return true;
   }
 
   // product
