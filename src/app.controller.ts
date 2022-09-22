@@ -19,6 +19,7 @@ export class AppController {
     private readonly shippingService: ShippingService
   ) { }
   // company
+
   @Get('company')
   async getCompanys(
     @Query('pageNo') pageNo: number,
@@ -34,8 +35,11 @@ export class AppController {
       items: company,
       count
     }
-    return result
+    return result;
   }
+  
+  
+
 
   @Get('company/:id')
   async getCompanyById(@Param('id', new ParseIntPipe()) id: string): Promise<Company> {
@@ -153,10 +157,39 @@ export class AppController {
   }
 
   // order
+  // @Get('ordertest')
+  // async getOrders(): Promise<Ordertest[]> {
+  //   return this.orderService.Orders({});
+  // }
+  
   @Get('ordertest')
-  async getOrders(): Promise<Ordertest[]> {
-    return this.orderService.Orders({});
+  async getOrders(
+    @Query('pageNo') pageNo: number,
+    @Query('pageSize', new ParseIntPipe()) pageSize: number
+  ){
+    console.log({ pageNo, pageSize })
+    const count = await this.orderService.totalCount();
+    
+    const order = await this.orderService.Orders({
+      skip: (pageNo - 1) * pageSize,
+      take: pageSize,
+      // cursor: {
+      //   orderNuberpageSize
+      // }
+    });
+    if(order)
+    console.log('order.length : ',order.length)
+    console.log('order\'s are : ', order.length)
+    const result = {
+      items: order,
+      count,
+    }
+    console.log('result.count : ',result.count)
+    console.log('pageSize / pageNo',pageSize/pageNo)
+    console.log('pageNo / pageSize', pageNo/pageSize)
+    return result;
   }
+
 
   @Get('ordertest/search')
   async searchDate(@Query('date') date1: string)

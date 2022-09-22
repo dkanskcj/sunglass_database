@@ -18,6 +18,11 @@ export class OrderService {
         });
     }
 
+
+    async totalCount(){
+        return await this.prisma.ordertest.count();
+    }
+
     async Orders(params: {
         skip?: number;
         take?: number;
@@ -26,6 +31,13 @@ export class OrderService {
         orderBy?: Prisma.OrdertestOrderByWithRelationInput;
     }): Promise<Ordertest[]> {
         const { skip, take, cursor, where, orderBy } = params;
+        const test = await this.prisma.ordertest.findMany({
+            skip,
+            take,
+            cursor,
+            where,
+            orderBy,
+        });
         return await this.prisma.ordertest.findMany({
             skip,
             take,
